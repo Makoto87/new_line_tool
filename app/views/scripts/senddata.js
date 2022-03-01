@@ -17,7 +17,6 @@ function changeLine() {
       const url = '/newline/';
       let data = {text: inputId.value};
       getNewLine(url, data).then(data => {
-            console.log(data);
             outputId.value = data.text;
       })
 }
