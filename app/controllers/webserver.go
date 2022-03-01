@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
+	"github.com/Makoto87/new_line_tool/app/models"
 	"html/template"
 	"io"
 	"net/http"
@@ -18,15 +18,8 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// レスポンスで返す用のJSON
-type Newline struct {
-	// Status int  `json:"status"`
-	Text string `json:"text"`
-}
-
-// 改行を行う
+// リクエストをもらい、レスポンスを返す
 func newLineHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("request arrived")
 	// POSTじゃなかったらエラー
 	if r.Method != "POST" {
 		w.WriteHeader(http.StatusBadRequest)
@@ -49,13 +42,16 @@ func newLineHandler(w http.ResponseWriter, r *http.Request) {
 
 	// jsonを読み込み
 	// decoderとどっちを使えばいい？
-	var newLine Newline
+	var newLine models.Newline
 	if err = json.Unmarshal(body, &newLine); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	// decoerの場合
 	// json.NewDecoder(r.Body).Decode(&newLine)
+
+	// 文字列内のスペースを改行に変換
+	newLine.MakeNewline()
 
 	// 構造体をjson化
 	jsondata, err := json.Marshal(newLine)
@@ -66,32 +62,13 @@ func newLineHandler(w http.ResponseWriter, r *http.Request) {
 
 	// headerのセット
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	// w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusOK)
 
 	// bodyのセット
 	w.Write(jsondata)
-	// fmt.Fprint(w, string(jsondata))
 }
 
-// test
-// func testHandler(w http.ResponseWriter, r *http.Request) {
-// 	//構造体をjson化
-// 	newLine := Newline{"text"}
-// 	jsondata, err := json.Marshal(newLine)
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusInternalServerError)
-// 		return
-// 	}
-
-// 	// headerのセット
-// 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-// 	// w.WriteHeader(http.StatusOK)
-
-// 	// bodyのセット
-// 	w.Write(jsondata)
-// 	// fmt.Fprint(w, string(jsondata))
-// }
-
+// httpサーバーを立ち上げ
 func StartWebServer() error {
 	http.HandleFunc("/view/", viewHandler)
 	http.HandleFunc("/newline/", newLineHandler)
@@ -100,7 +77,6 @@ func StartWebServer() error {
 	dir, _ := os.Getwd()
 	// ディレクトリを指定して公開
 	http.Handle("/app/views/", http.StripPrefix("/app/views/", http.FileServer(http.Dir(dir+"/app/views/"))))
-
 
 	return http.ListenAndServe(":8080", nil)
 }
