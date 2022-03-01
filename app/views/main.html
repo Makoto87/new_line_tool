@@ -8,7 +8,7 @@
       <!-- Bootstrap読み込み -->
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
       <!-- css読込 -->
-      <link rel="stylesheet" href="styles/stylesheet.css">
+      <link rel="stylesheet" href="/app/views/styles/stylesheet.css">
 </head>
 <body>
       <!-- 大元のbox -->
@@ -24,14 +24,15 @@
                               <p class="w-75">文字を入力</p>
                         </div>
                         <div class="d-flex justify-content-center">
-                              <!-- <textarea name="input" id="input" cols="30" rows="10"></textarea> -->
                               <!-- rowsで行数を指定 -->
                               <textarea class="w-75 textarea" autofocus="autofocus" name="input" id="input"></textarea>
                         </div>
                   </div>
 
                   <!-- 矢印 -->
-                  <div class="col-2 d-flex justify-content-center align-items-center">⇨</div>
+                  <div class="col-2 d-flex justify-content-center align-items-center">
+                        <input type="button" value="→" onclick="changeLine()">
+                  </div>
 
                   <!-- 文字出力 -->
                   <div class="col-5">
@@ -39,7 +40,6 @@
                               <p class="w-75">結果</p>
                         </div>
                         <div class="d-flex justify-content-center">
-                              <!-- <textarea name="output" id="output" cols="30" rows="10"></textarea> -->
                               <textarea class="w-75 textarea" name="output" id="output" readonly="true"></textarea>
                         </div>
                   </div>
@@ -49,6 +49,10 @@
       <!-- Bootstrap読み込み -->
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
       <!-- jsファイルを読み込み -->
-      <script src="main.js"></script>
+      <!-- やり方があっているか確認 -->
+      <script src="/app/views/scripts/textarea.js"></script>
+      <script src="/app/views/scripts/senddata.js"></script>
+      <!-- <script src="scripts/textarea.js"></script>
+      <script src="scripts/senddata.js"></script> -->
 </body>
 </html>
