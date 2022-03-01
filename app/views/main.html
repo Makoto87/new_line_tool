@@ -25,7 +25,7 @@
                         </div>
                         <div class="d-flex justify-content-center">
                               <!-- rowsで行数を指定 -->
-                              <textarea class="w-75 textarea" autofocus="autofocus" name="input" id="input"></textarea>
+                              <textarea oninput="changeLine()" class="w-75 textarea" autofocus="autofocus" name="input" id="input"></textarea>
                         </div>
                   </div>
 
@@ -52,7 +52,5 @@
       <!-- やり方があっているか確認 -->
       <script src="/app/views/scripts/textarea.js"></script>
       <script src="/app/views/scripts/senddata.js"></script>
-      <!-- <script src="scripts/textarea.js"></script>
-      <script src="scripts/senddata.js"></script> -->
 </body>
 </html>
