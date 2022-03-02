@@ -1,10 +1,9 @@
-
 # 制作物：改行ツール
 文章のスペースを区切って改行にしてくれるツールを作成しました。</br>
 スペースは半角でも全角でも対応し、1文字でも連続していても1つの改行になるようにしています。  
 <br>
 
-![画面収録_2022-03-02_22_28_53_AdobeCreativeCloudExpress](https://user-images.githubusercontent.com/52909609/156371855-bed6ab88-71b3-42ce-a42a-f0430a07b811.gif)
+<img src="https://user-images.githubusercontent.com/52909609/156371855-bed6ab88-71b3-42ce-a42a-f0430a07b811.gif" width="800">
 
 例
 ```
