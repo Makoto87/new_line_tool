@@ -1,16 +1,20 @@
-package controllers
+package app
 
 import (
+	"embed"
 	"encoding/json"
-	"github.com/Makoto87/new_line_tool/app/models"
-	"html/template"
 	"io"
+
+	"html/template"
 	"net/http"
-	"os"
 )
 
+// html, css. jsを埋め込みする
+//go:embed views/*
+var views embed.FS
+
 // メイン画面の表示
-var templates = template.Must(template.ParseFiles("app/views/main.html"))
+var templates = template.Must(template.ParseFS(views, "views/main.html"))
 
 func viewHandler(w http.ResponseWriter, r *http.Request) {
 	if err := templates.ExecuteTemplate(w, "main.html", nil); err != nil {
@@ -42,7 +46,7 @@ func newLineHandler(w http.ResponseWriter, r *http.Request) {
 
 	// jsonを読み込み
 	// decoderとどっちを使えばいい？
-	var newLine models.Newline
+	var newLine Newline
 	if err = json.Unmarshal(body, &newLine); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
@@ -73,10 +77,8 @@ func StartWebServer() error {
 	http.HandleFunc("/view/", viewHandler)
 	http.HandleFunc("/newline/", newLineHandler)
 
-	// cssやjsを読め込めるようにする
-	dir, _ := os.Getwd()
-	// ディレクトリを指定して公開
-	http.Handle("/app/views/", http.StripPrefix("/app/views/", http.FileServer(http.Dir(dir+"/app/views/"))))
+	// go:embedを利用し、viewsディレクトリ以下にあるファイルを全て公開
+	http.Handle("/views/", http.FileServer(http.FS(views)))
 
 	return http.ListenAndServe(":8080", nil)
 }
